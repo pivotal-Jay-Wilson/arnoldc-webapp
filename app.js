@@ -1,11 +1,20 @@
-#!/Users/johnwilson/.nvm/versions/node/v16.13.1/bin/node
+
 const express = require('express');
 const exec = require('child_process').exec;
 const app = express();
-const port = 3000
+const fs = require('fs');
+const path = require('path');
+const port = 8080;
 
 app.get('/', (req, res) => {
-  
+  const files =  fs.readdirSync(".");
+  let functions = [];
+  for (const file of files) {
+    if (path.extname(file) === '.class'){
+      functions.push( file.replace(".class", "")  );
+    }
+  }
+  res.send(functions);
 });
 
 app.get('/run/:class', (req, res) => {
